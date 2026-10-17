@@ -13,8 +13,16 @@ const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
 AsyncWebServer server(80);
 
-// Optional: direct connection by MAC + channel (faster reconnect)
-uint8_t bssid[] = {0x32, 0x16, 0x9D, 0x79, 0x6C, 0x71};
+// Optional: pin the connection to one specific access point (MAC + channel),
+// which makes reconnection faster on networks with several repeaters.
+//
+// Leave USE_FIXED_AP commented out to connect normally by SSID. If you enable
+// it, fill in your own router's BSSID and channel -- do not commit real values,
+// since a router's MAC address can be looked up in public WiFi geolocation
+// databases and resolved to a physical location.
+//
+// #define USE_FIXED_AP
+uint8_t bssid[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 int wifiChannel = 6;
 
 // ---------- Dome servo ----------
@@ -120,7 +128,11 @@ void setup() {
   WiFi.disconnect();
   delay(500);
 
+#ifdef USE_FIXED_AP
   WiFi.begin(ssid, password, wifiChannel, bssid);
+#else
+  WiFi.begin(ssid, password);
+#endif
   Serial.print("Connecting to WiFi... ");
 
   int attempts = 0;

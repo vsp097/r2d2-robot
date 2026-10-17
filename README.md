@@ -7,8 +7,18 @@ real-time motor commands.
 
 Built for the *Robótica Industrial* course at Universidad Metropolitana (Caracas, Venezuela).
 
-> Add your build photos to `media/` and reference them here, e.g.
-> `![Arturito finished build](media/arturito_final.jpg)`
+![Arturito, finished build with the front laser lit](media/arturito_final.jpg)
+
+<table>
+<tr>
+<td width="50%"><img src="media/electronica_protoboard.jpg" alt="ESP32, two L298N drivers, HC-SR04 and the three gear motors wired on a breadboard"></td>
+<td width="50%"><img src="media/piezas_impresas_3d.jpg" alt="3D-printed chassis parts before assembly"></td>
+</tr>
+<tr>
+<td><em>Bench setup: ESP32 on the breadboard, both L298N drivers, the HC-SR04, the 8xAA pack and the three gear motors, before anything went into the chassis.</em></td>
+<td><em>3D-printed parts before assembly: dome, feet, and the leg brackets.</em></td>
+</tr>
+</table>
 
 ## Features
 
@@ -72,6 +82,10 @@ arturito/
 │   ├── wiring.md               # Pinout and wiring notes
 │   └── testing.md              # Test log / validation notes
 └── media/                      # Build photos
+    ├── arturito_final.jpg
+    ├── electronica_protoboard.jpg
+    ├── detalle_cupula_laser.jpg
+    └── piezas_impresas_3d.jpg
 ```
 
 ## Hardware
@@ -86,6 +100,11 @@ arturito/
 | Laser emitter module          | 1   | Front-facing, digital on/off                  |
 | 8x AA battery pack             | 1   | Motor power (separate from ESP32 supply)      |
 | USB power bank / cable        | 1   | ESP32 power (isolated from motor supply)      |
+
+<img src="media/detalle_cupula_laser.jpg" width="420" alt="Close-up of the dome with the front laser emitter lit">
+
+*Dome detail with the laser emitter on. The module is active-`LOW` in this build —
+see [`docs/wiring.md`](docs/wiring.md).*
 
 ### Pinout
 
@@ -127,7 +146,10 @@ Full wiring notes: [`docs/wiring.md`](docs/wiring.md)
 
 ### 1. Firmware
 1. Open `firmware/arturito_robot.ino` in Arduino IDE (ESP32 board package installed)
-2. Edit the WiFi credentials at the top of the file
+2. Edit the WiFi credentials at the top of the file (`ssid` / `password`). On a
+   network with several access points you can also uncomment `USE_FIXED_AP` and
+   fill in your own router's BSSID and channel to pin the connection — just
+   don't commit those values, since a router MAC can be geolocated.
 3. Keep `index_html.h` in the same sketch folder
 4. Upload to the ESP32, then open the Serial Monitor at `115200` baud to read the
    assigned IP address
